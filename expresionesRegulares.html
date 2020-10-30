@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Expresiones Regulares</title>
+    <script type="text/javascript" src="script.js"></script>
+    <style>
+        
+    </style>
+
+    <script>
+
+        function validacionVacio()
+        {
+            try
+            {
+                var txtPlaca = new Array(document.getElementById("textoPlaca").value);
+                txtPlaca = document.getElementById("textoPlaca").value;
+    /*          Placas de Auto AAA-000-A*/            
+                const placaRegex = /[A-Z]{3}\-\d{3}\-\[A-Z]/;
+
+                var txtMiles = new Array(document.getElementById("textoMiles").value);
+                txtMiles = document.getElementById("textoMiles").value;
+    /*          Número con separador de miles (,) pudiendo tener parte decimal (.) de hasta 3 dígitos. */ 
+    /*          /^\d{0,3},\d{3}.?\d{0,3}$/  
+                /^\?(d{1-3},d{3})*\d{1-3}\?(.d{0,3})$/ */
+                const milesRegex = /^\d{0,3},\d{3}.?\d{0,3}$/;
+
+                if (txtPlaca === '' || txtMiles === '')
+                {
+                    alert("Alguno de los campos esta vacio")
+            
+                }else
+                {
+    /*              if( txt2 == null || txt2.length == 0 || !(/^\?(,d{3})\d{0-3}\?(.d{0,3})$/.test(txt2)) ) */  
+                    if( txtPlaca == null || txtPlaca.length == 0 || !placaRegex.test(txtPlaca) ) 
+                    {
+                        document.getElementById("demoPlaca").innerHTML = "La Placa:  "+txtPlaca+"  no existe";
+                    
+                    }else
+                    {
+                        document.getElementById("demoPlaca").innerHTML = "La Placa:  "+txtPlaca+"  es Correcta";
+                    }
+
+                    if( txtMiles == null || txtMiles.length == 0 || milesRegex.test(txtMiles) == false ) 
+                    {
+                        document.getElementById("demoMiles").innerHTML = "Lo que escribiste como:  "+txtMiles+"  es Erroneo";
+                    
+                    
+                    }else
+                    {      
+                        document.getElementById("demoMiles").innerHTML = "Lo que escribiste como:  "+txtMiles+"  es Correcto";
+                        
+                    }
+
+                    if(placaRegex.test(txtPlaca) || milesRegex.test(txtMiles))
+                    {
+                        document.getElementById("demo").innerHTML = "Jeancarlo Antonio Aranda Cen ISC 17390318 I7U"
+                    
+                    }
+
+                    localStorage["textoPlaca"]= txtPlaca;
+                    localStorage["textoMiles"]= txtMiles;
+                    
+                    
+                return true;
+                }
+            
+            }catch(error)
+            {
+                console.error(error);
+            }
+        }
+
+        var dato1 = localStorage["textoPlaca"];
+        var dato2 = localStorage["textoMiles"];
+
+        var p1 = document.getElementById("textPlacasField");
+        p1.innerHTML= dato1;
+        var p2 = document.getElementById("textMilesField");
+        p2.innerHTML= dato2;
+
+    </script>
+
+</head>
+
+<body name="body" text=white bgcolor="black">
+
+    <h2 style="text-align: center;">Expresiones Regulares</h3>
+
+    <h3>Rellena el formulario</h5> 
+    <br>
+    
+   <form action="show.html" onsubmit="return validacionVacio()" method="get">
+
+        <p id="demo">Estudiante;</p>
+        <br>
+        <q >Introduce los datos para elvaluar la placa de tu coche siguiendo la estructura    AAA-000-A</q>
+        <p >Osea 3 Letras guion 3 Numeros guion y finalemte 1 Letra</p>
+
+        <input type="text" placeholder="AAA-000-A" id="textoPlaca">
+        <p id="demoPlaca">Existira?</p>
+
+        <br>
+        <q >Introduce los datos para elvaluar un Número con separador de miles (,) pudiendo tener parte decimal (.) de hasta 3 dígitos.</q>
+        <p>Ósea que por lo menos puedes poner de 1 a 3 números enteros seguido de una (,) y 3 digitos enteros y ademas con la posibilidad de parte decimal de hasta 3 digitos </p>
+        
+        <input type="text" placeholder="###,###.###" id="textoMiles">
+        <p id="demoMiles">Try...</p>
+
+        <br>
+<!--    onclick="validacionVacio()"
+        <input type="button" value="Enviar" onclick="validacionVacio()" onclick="this.disabled=true;  
+        this.value='Enviando...'; this.form.submit()" /> --> 
+        <button type="submit">Enviar</button> -->
+    </form>
+
+</body>
+
+</html>
